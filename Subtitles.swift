@@ -19,8 +19,8 @@ private struct AssociatedKeys {
     static var PayloadKey = "PayloadKey"
 }
 
-@objc public class Subtitles : NSObject {
-
+public class Subtitles {
+    
     // MARK: - Properties
     fileprivate var parsedPayload: NSDictionary?
     
@@ -35,7 +35,7 @@ private struct AssociatedKeys {
         
     }
     
- @objc public init(subtitles string: String) {
+    public init(subtitles string: String) {
         
         // Parse string
         parsedPayload = Subtitles.parseSubRip(string)
@@ -46,10 +46,20 @@ private struct AssociatedKeys {
     ///
     /// - Parameter time: Time
     /// - Returns: String if exists
- @objc public func searchSubtitles(at time: TimeInterval) -> String? {
+    public func searchSubtitles(at time: TimeInterval) -> String? {
         
         return Subtitles.searchSubtitles(parsedPayload, time)
         
+    }
+    
+    /// Load all  lines subtitles
+    ///
+    /// - Returns: String if exists
+    public func getAllLineSubtitles(filePath: URL) -> NSDictionary? {
+        
+        let string = try! String(contentsOf: filePath, encoding: .utf8)
+
+        return Subtitles.parseSubRip(string)
     }
     
     // MARK: - Private methods
